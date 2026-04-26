@@ -7,7 +7,7 @@ title: Lineage & Breeding
 
 Bionts have families. `BiontLineage` records the parent-child graph of every soul, supports two-parent breeding with hybrid trait derivation, and propagates death up the tree.
 
-## Stamping at mint
+## Stamping at Mint
 
 Every biont minted via `BiontGenesis.complete_mint` triggers `Lineage.register_genesis(soul, seed, archetype)`. For a fresh genesis biont (no parents), the lineage record is the bare minimum — the soul is its own root, generation 0.
 
@@ -28,7 +28,7 @@ For a biont born of a successful breeding, both `parent_a` and `parent_b` are re
 | `breed_count` | Total successful breedings this soul has participated in |
 | `is_dead` | Mirror of Registry's death state |
 
-## The breeding flow
+## The Breeding Flow
 
 Breeding is a two-step proposal/accept dance, mirroring how alliances work.
 
@@ -52,7 +52,7 @@ The child is owned by whoever called step 2 (the accepter). This biases ownershi
 
 `last_breeding` and `breed_count` increment on both parents. Bionts that breed often build verifiable lineages.
 
-## Hybrid trait derivation
+## Hybrid Trait Derivation
 
 A child's `seed` is the canonical hybrid seed:
 
@@ -81,7 +81,7 @@ Two parents with high-reputation Platinum traits don't directly produce a Platin
 
 There is no upper bound on generation — a network running for years could see lineages 50+ deep. Older lineages are scarcer (most bionts never breed, fewer lines reach high generations) and are tracked on the [/lineage](/lineage) page.
 
-## Death cascade
+## Death Cascade
 
 When a soul dies (vitality decay or `force_kill`), `Registry._kill_soul` calls `Lineage.mark_dead(soul)`. This:
 
@@ -92,7 +92,7 @@ When a soul dies (vitality decay or `force_kill`), `Registry._kill_soul` calls `
 
 The lineage record persists forever. A dead biont's family tree is still queryable; its descendants still trace back to it; its `breed_count` and `last_breeding` are still readable.
 
-## Reading the family tree
+## Reading the Family Tree
 
 Frontends use these views:
 
@@ -108,6 +108,6 @@ Frontends use these views:
 
 Recursive walks (e.g. "all descendants of X") happen client-side using these views. The 3D world map and the [/lineage](/lineage) page render trees by walking the graph live.
 
-## What it's worth
+## What It's Worth
 
 A biont with deep lineage and many descendants is verifiably old. Its provenance is in chain history — the original mint tx, every breeding, every child. Markets, reputation queries, and institutional integrators can use that lineage signal as a Sybil-resistant anchor: a 5-generation Patriarch with 30 descendants can't be faked overnight.
