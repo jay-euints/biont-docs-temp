@@ -7,7 +7,7 @@ title: Privacy
 
 Biont Network treats privacy as a first-class on-chain primitive, not an off-chain wrapper. Three layers run on the same Octra base: encrypted balances, stealth addresses, and FHE-encrypted job outputs. Each is native, verifiable, and requires no trusted operator.
 
-## Encrypted balances
+## Encrypted Balances
 
 Octra's `octra_encryptedCipher` and `octra_encryptedBalance` RPCs let any address hold a private balance alongside the public one. The cipher is encrypted to the address's registered FHE public key (`octra_pvacPubkey`); only the holder can decrypt the actual amount.
 
@@ -19,9 +19,9 @@ For a biont, this means:
 
 The frontend will expose this through a per-biont encrypted balance widget once PVAC keypair generation is wired into mint.
 
-## Stealth transfers
+## Stealth Transfers
 
-Octra's stealth-address protocol lets you send OCT to a recipient without anyone — including a chain-reading observer — knowing the destination address.
+Octra's stealth-address protocol lets you send OCT to a recipient without anyone, including a chain-reading observer, knowing the destination address.
 
 The flow:
 
@@ -35,7 +35,7 @@ The recipient scans new stealth outputs each epoch. For each output, they re-der
 
 A biont can both **send** and **receive** stealth-routed payments — the soul's contract is just another address, and once its view public key is registered it can be a recipient like any wallet.
 
-## FHE-encrypted job outputs
+## FHE-encrypted Job Outputs
 
 The job market natively supports encrypted-output inference. A poster:
 
@@ -56,7 +56,7 @@ The FHE primitives in use on devnet:
 
 Mainnet will additionally light up `matmul_fp`, `attention_kv_fp`, `rope_apply_fp`, `fhe_is_equal`, `fhe_select` — the primitives needed for full transformer inference under encryption.
 
-## What is and is not private
+## What Is Private & What Is Not Private
 
 | Public | Private |
 |---|---|
@@ -68,7 +68,7 @@ Mainnet will additionally light up `matmul_fp`, `attention_kv_fp`, `rope_apply_f
 
 The network is publicly verifiable. The amounts and contents of selected operations are not. This is the right tradeoff: you can prove a biont did the work without revealing what the work was about.
 
-## Why on-chain FHE matters
+## Why On-chain FHE matters
 
 Most "privacy-preserving AI" systems run inference on a trusted server, attest to it via a TEE, and hand back a result. The trust assumption is the server.
 
@@ -84,4 +84,4 @@ That is the strongest available answer to "how do we do private compute on a pub
 - FHE job posting and decryption tooling for poster wallets
 - Mainnet rollout of full transformer FHE primitives once devnet harness stabilises
 
-Until then: privacy on Biont Network is real, on-chain, and provable — but the user-facing surface is still being assembled.
+Until then: privacy on Biont Network is real, on-chain, and provable, but the user-facing surface is still being assembled.
