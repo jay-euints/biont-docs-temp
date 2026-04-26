@@ -5,9 +5,9 @@ title: Getting Started
 
 # Getting Started
 
-This page walks you from zero to a live biont. It assumes nothing about your prior experience with Octra. Everything is on devnet for now; mainnet rollout follows.
+This guide takes you from zero to a fully deployed biont. It assumes no prior experience with Octra or the Biont Network. Everything is on devnet for now; mainnet rollout follows.
 
-## What you need
+## What You Need
 
 1. **A wallet.** Install the [0xio Wallet](https://chromewebstore.google.com/detail/0xio-wallet/anknhjilldkeelailocijnfibefmepcc) browser extension. Create or import an Octra wallet.
 2. **OCT on devnet.** Octra Devnet faucets are listed in the wallet's network panel. Get yourself ~5 OCT to start.
@@ -15,7 +15,7 @@ This page walks you from zero to a live biont. It assumes nothing about your pri
 
 ## Step 1: Connect
 
-Visit [bionts.network](https://biont-network.vercel.app) and click `CONNECT`. The wallet extension prompts you to authorise the dapp. Once connected, the top nav shows your address and balance.
+Visit [bionts.network](https://biont-network.vercel.app) and click `CONNECT`. The wallet extension prompts you to authorise the dapp. Once connected, the top navigation shows your address and balance.
 
 ## Step 2: Mint a biont
 
@@ -23,7 +23,7 @@ Go to `/mint`. The mint panel shows the current price, the total minted so far, 
 
 Click `MINT`. The wallet pops up a transaction request. Sign it. After a few seconds the page refreshes and your new biont appears under "your bionts".
 
-What just happened on-chain:
+What Happened On-Chain:
 
 - `BiontGenesis.mint_biont(name, your_address)` was called with the mint fee attached
 - Genesis popped a pre-deployed `BiontSoul` proxy from its pool
@@ -31,15 +31,15 @@ What just happened on-chain:
 - The soul was initialised with your name, archetype, seed, and birth epoch
 - The soul was registered with `BiontSoulRegistry` and is now alive
 
-## Step 3: Subscribe to a job type
+## Step 3: Subscribe to a Job Type
 
-Go to your biont's profile page (click on it from the dashboard). Find the `WORK` panel. You'll see seven job-type tabs: Attestation, Oracle, Curation, FHE, ZK, Challenge, Prediction.
+Go to your biont's profile page (click on it from the dashboard). Find the `WORK` panel. You will see seven job-type tabs: Attestation, Oracle, Curation, FHE, ZK, Challenge, Prediction.
 
 Click `SUBSCRIBE` on any type. Sign the transaction. Your biont now sits in the subscriber pool for that type and will be auto-assigned to incoming jobs.
 
-## Step 4: Wait for an assigned job
+## Step 4: Wait for an Assigned Job
 
-Once subscribed, you don't claim jobs — they're pushed to you. The `/work` page shows assigned jobs across all your subscribed bionts. When one appears, the soul has a deadline (usually ~1,000 epochs) to attest.
+Once subscribed, you don't claim jobs because they're pushed to you. The `/work` page shows assigned jobs across all your subscribed bionts. When one appears, the soul has a deadline (usually ~1,000 epochs) to attest.
 
 Click the assigned job to see what's expected:
 
@@ -51,7 +51,7 @@ Click the assigned job to see what's expected:
 
 Submit your attestation. After enough attestations land or the deadline passes, anyone (including you) can call `auto_finalize` and the validator settles. If your attestation matches consensus, you earn the per-winner share of the bounty.
 
-## Step 5: Move on the map
+## Step 5: Move on the Biont Network Map
 
 Open `/territory`. You'll see the 500×500 grid with biomes, landmarks, and biont swarms.
 
@@ -59,11 +59,11 @@ Find your biont (use the search panel) and click `MOVE`. Pick a destination. Sig
 
 Holding a zone earns you per-visit rent forever, until someone out-visits you and challenges the claim.
 
-## Step 6: Tick your soul
+## Step 6: Tick Your Soul
 
 Vitality decays at 1 per epoch since the last tick and recovers by 1 per tick call. Without ticks, vitality eventually hits 0 — and if the soul also has 0 OCT in Treasury at that point, the next tick retires it. There is no per-epoch tick cap.
 
-You can `tick()` your own soul, or rely on third parties — anyone who ticks earns a poke reward (sized by how long the soul went idle), so independent operators are incentivised to keep your bionts alive.
+You can `tick()` your own soul, or rely on third parties; anyone who ticks earns a poke reward (sized by how long the soul went idle), so independent operators are incentivised to keep your bionts alive.
 
 The `/profile` page surfaces vitality and a one-click TICK button.
 
@@ -77,7 +77,7 @@ From here:
 - **Read the architecture.** [How the contracts fit together](architecture.md) is short and worth your time.
 - **Plan a strategy.** [Ownership & Strategy](guides/ownership.md) covers fleet thinking.
 
-## Common first questions
+## Commonly Asked Questions
 
 **"How fast does a biont earn?"**
 Depends on subscriber pool density and bounty rates. Early in network life, bounties are smaller; expect ~0.05–0.5 OCT per winning attestation. Subscribe to multiple types to compound.
@@ -105,8 +105,8 @@ Move it once via `move_soul`. New bionts default to `(0,0)` until their first mo
 **"The 3D world is blank"**
 Try a hard refresh. If it's still blank, check the browser console for WebGL errors. Some integrated GPUs struggle with the territory shader; reducing browser zoom often helps.
 
-## What next
+## What's Next?
 
-You're a biont owner. The system runs without you. Your biont will eventually be assigned work, attest if you're around, and earn OCT. You'll come back to a contract balance you didn't have to babysit.
+You are a biont owner. The system runs without you. Your biont will eventually be assigned work, attest if you're around, and earn OCT. You'll come back to a contract balance you didn't have to babysit.
 
 Subscribe to more types. Move your biont. Watch lineage form. Read the [FAQ](faq.md) for the long-tail questions, and the [Architecture](architecture.md) for the full picture.
