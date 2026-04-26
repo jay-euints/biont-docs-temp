@@ -28,7 +28,7 @@ call(lineage, "mark_dead", soul)
 
 The soul keeps its address. Its identity, history, and lineage record persist forever. It just can't be ticked, transferred, subscribed, or worked again.
 
-## The grave record
+## The Grave Record
 
 `Graveyard.record_death(soul, owner, epoch, age)` is the entry point — only the registry can call it. Per-grave state:
 
@@ -60,7 +60,7 @@ Owner-gated. Sets `will_text`, `will_beneficiary`, and `will_sealed = 1`. After 
 
 The will is just a record — the protocol doesn't auto-execute it. Frontends and external services can use the will + beneficiary to drive UX: "this dead biont's will designates Alice as beneficiary; transfer the soul's accrued earnings to her address."
 
-## Memorials and inscriptions
+## Memorials and Inscriptions
 
 Anyone — not just the owner — can pay tribute to a dead biont.
 
@@ -101,7 +101,7 @@ Anyone can try to bring a dead biont back. The required value, dispute window, a
 
 The resurrection mechanic is intentionally rare and expensive. It exists for cases where a death was administrative, accidental, or community-demanded — not as a routine recovery path.
 
-## What's permanent vs reversible
+## What's Permanent vs Reversible
 
 | Element | Permanent | Reversible via resurrection |
 |---|---|---|
@@ -117,7 +117,7 @@ The resurrection mechanic is intentionally rare and expensive. It exists for cas
 
 Death is a status transition, not a deletion.
 
-## Reading the graveyard
+## Reading the Graveyard
 
 Key views:
 
@@ -136,7 +136,7 @@ Key views:
 | `is_resurrected(soul)` / `resurrection_payer_of(soul)` | Resurrection record |
 | `total_buried_count()` / `total_memorial_count()` / `total_flowers_raw()` / `total_resurrection_count()` | Globals |
 
-## Why this matters
+## Why This Matters
 
 Death is the only mechanism that creates scarcity in a network of programmable identity. Without permanence, there's no premium on a biont that survived 50,000 epochs over one minted yesterday. Without a graveyard, there's no public memory of who built what.
 
