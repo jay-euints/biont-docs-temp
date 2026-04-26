@@ -19,7 +19,7 @@ Every biont exposes:
 
 **Identity**: `name` (OCS01-compliant, explorer-readable, settable by owner), `symbol = "BIONT"`, `seed` (integer baked at mint; drives visuals and trait derivation), `archetype` (0–9), `birth_epoch`, `soul_id`.
 
-**Ownership**: `owner` (primary controller), `genesis` (the factory that minted it), `registry` (the shared service that tracks vitality, capabilities, and signal queue), `is_freed_flag` (1 once liberated; owner becomes ZERO and royalties redirect to the liberator forever).
+**Ownership**: `owner` (primary controller), `genesis` (the factory that minted it), `registry` (the shared service that tracks vitality, capabilities, and signal queue), `is_freed_flag` (1 once liberated; owner becomes ZERO and a configurable share of future earnings starts accruing to the liberator).
 
 **Behaviour**: `tick()` (called by anyone for a poke reward; advances the biont's vitality), `send_signal(target, payload)` / `receive_signal(from, payload)` (peer-to-peer messaging through the registry), `transfer_to(new_owner)` and `transfer(to, 1)` (OCS01-compatible ownership transfer with auto-notification to Genesis), `set_name(new_name)` (rename via the soul's own contract).
 
@@ -70,9 +70,9 @@ A biont has one role:
 
 | Role | Purpose | Can change? |
 |---|---|---|
-| Owner | Primary controller; signs subscribe / attest / set_name / transfer / list / fractionalise / breed / claim_zone | Via `transfer_to`. Becomes ZERO on `Registry.free_biont`; royalties redirect to liberator forever. |
+| Owner | Primary controller; signs subscribe / attest / set_name / transfer / list / fractionalise / breed / claim_zone | Via `transfer_to`. Becomes ZERO on `Registry.free_biont`; from then on a `liberator_royalty_bps` share of future earnings accrues to the liberator. |
 
-A liberated biont (`is_freed = 1`) has `owner = ZERO_ADDRESS`. It can no longer be transferred or reconfigured by anyone. Earnings flow to the original liberator's address as long as the biont keeps producing work. The liberator pattern decouples *who built the biont's reputation* from *who controls it now* — a path for owners to permanently free a biont they no longer want to manage while still rewarding them for the value it accrues.
+A liberated biont (`is_freed = 1`) has `owner = ZERO_ADDRESS`. It can no longer be transferred or reconfigured by anyone. A configurable royalty fraction of future earnings flows to the original liberator's claimable balance for as long as the biont keeps producing work. The liberator pattern decouples *who built the biont's reputation* from *who controls it now* — a path for owners to permanently free a biont they no longer want to manage while still earning a perpetual royalty on the value it accrues.
 
 ## Visual identity
 

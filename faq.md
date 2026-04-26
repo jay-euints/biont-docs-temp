@@ -41,7 +41,7 @@ A `BiontSoul` contract at a unique address. The contract holds: identity (name, 
 
 ### Can I mint multiple?
 
-Yes. Each mint pops a fresh proxy from the pool. There's no per-wallet cap.
+Yes. Each mint pops a fresh proxy from the pool. The default per-wallet cap is 10 (`DEFAULT_MAX_PER_WALLET = 10`); the protocol owner can raise or lower it via `set_max_per_wallet`. Mint price defaults to 1 OCT and is similarly tunable. Both values may change at mainnet.
 
 ### What's the supply?
 

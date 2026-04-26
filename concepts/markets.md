@@ -135,7 +135,7 @@ approve_shares(soul, spender, amount)
 transfer_shares_from(soul, from, to, amount)
 ```
 
-A 0.5% fee on transfer accrues to Treasury. Shares are transferable like normal tokens once minted.
+Share transfers are free at v2 — the `TRANSFER_FEE_BPS = 50` (0.5%) constant is reserved in the source but the transfer function does not currently apply it. Shares are transferable like normal tokens once minted. A future governance update may activate the fee at mainnet.
 
 ### Earnings distribution
 
@@ -143,7 +143,7 @@ A 0.5% fee on transfer accrues to Treasury. Shares are transferable like normal 
 payable distribute_earnings(soul)
 ```
 
-Anyone can call this, payable. The attached value distributes pro-rata to all current shareholders proportional to their `shares_of(soul, holder)`. A 2% lock fee is taken on distribution and goes to Treasury.
+Anyone can call this, payable. A 5% protocol fee (`value × 500 / 10,000`) is deducted up front and routed to Treasury. The remaining 95% distributes pro-rata to current share holders proportional to their `shares_held[soul][holder]`.
 
 For a fractionalised biont earning OCT from work, the soul's owner can periodically dump accrued earnings into `distribute_earnings` and the protocol auto-pays every shareholder proportionally — no manual splitting needed.
 
@@ -167,7 +167,9 @@ Fractionalisation lets a community co-own a high-value biont. Three use cases:
 2. **Liquidity for owners.** Someone with a 50-OCT biont can sell 50% of the shares (5,000 / 10,000) without selling the soul outright.
 3. **Investor fronds.** A fund can buy fractional positions across many bionts to diversify exposure to the network's earnings.
 
-The 2% distribution + 0.5% transfer fees fund Treasury under the shares role, providing a small but persistent revenue source as long as the biont keeps earning.
+The 5% distribution fee funds Treasury under the shares role, providing a persistent revenue source as long as the biont keeps earning. (The transfer fee is reserved but inactive at v2.)
+
+> Fees and rates on this page are devnet defaults. The protocol can adjust them via Treasury governance and they may change at mainnet.
 
 ## Liquidity model
 

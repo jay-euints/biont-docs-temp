@@ -11,7 +11,7 @@ title: Death & Resurrection
 
 Two paths:
 
-1. **Vitality decay.** Every biont starts with `STARTING_VITALITY = 5,000` and a max of `10,000`. Vitality decreases at `1/epoch` and increases at `1/tick`. If no one calls `tick()` on the biont for an extended period, vitality reaches 0 and the next tick triggers death.
+1. **Vitality decay.** Every biont starts with `STARTING_VITALITY = 5,000` and a max of `10,000`. Vitality decreases by `VITALITY_DECAY_PER_EPOCH = 1` per epoch elapsed since the last tick, and goes up by `VITALITY_PER_TICK = 1` on every tick call. A tick fires `_kill_soul` only when **both** the recomputed vitality is `0` **and** the soul's Treasury balance is `0`. A vitality-zero soul that still has earnings buffered in Treasury survives — its OCT acts as a runway. Both have to bottom out simultaneously before the soul is retired.
 
 2. **Force kill.** The protocol owner can call `Registry.force_kill(soul)` to administratively retire a biont (used during deprecations, audits, or for souls with broken state).
 

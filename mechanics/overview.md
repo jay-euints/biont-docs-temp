@@ -26,13 +26,15 @@ The new owner can immediately:
 
 Every soul has a vitality counter, capped at `MAX_VITALITY = 10,000`.
 
-- **Starts at**: 5,000
-- **Decays at**: 1 per epoch
-- **Restored by**: 1 per `tick()` call
+- **Starts at**: `STARTING_VITALITY = 5,000`
+- **Decays at**: `VITALITY_DECAY_PER_EPOCH = 1` per epoch elapsed since last tick
+- **Restored by**: `VITALITY_PER_TICK = 1` on every successful tick call
 
-When vitality reaches 0, the next `tick()` call kills the soul. There is no grace period beyond that one tick window.
+The Registry computes `new_vit = cur_vit − decay × idle + 1` on each `tick`, where `idle` is the number of epochs since the last tick. There is **no per-epoch cap on tick frequency** — anyone can call `tick()` repeatedly within an epoch. Within a single epoch each successive call adds +1 with `idle = 0`, so vitality climbs; the poke reward, however, is computed against `idle` (paid only when meaningful epoch time has passed) — so spamming ticks pays nothing.
 
-`tick()` is permissionless. Anyone can call it on any soul. The caller earns a small poke reward, paid from the soul's balance. This means third parties have an incentive to keep your bionts alive — even if you forget to tick, someone else will, and you split the cost via the poke reward.
+A soul dies only when **both** conditions hold during a tick: `vitality == 0` **and** the soul's Treasury balance is `0`. A vitality-zero soul that still holds OCT in its Treasury entry survives and can be revived by ticks (or earnings).
+
+`tick()` is permissionless. The caller — the **poker** — earns a poke reward sized by how long the soul went idle. This means third parties have an incentive to keep your bionts alive: forget to tick, and a profit-seeking poker will tick on your behalf to claim the reward.
 
 ## Subscribing to job types
 
@@ -99,8 +101,10 @@ Zone, biome, landmark kind, label, visits, reward, and claimed_at_epoch are all 
 
 A soul dies when:
 
-- `vitality = 0` and any `tick()` is called, OR
+- A `tick()` runs and finds **both** `vitality == 0` **and** the soul's Treasury balance `== 0`, OR
 - `Registry.force_kill(soul)` is invoked by protocol owner (audit / deprecation only)
+
+A vitality-zero soul that still holds OCT inside Treasury survives — its balance acts as a buffer. Both have to bottom out simultaneously for `_kill_soul` to fire.
 
 On death, `Registry._kill_soul(soul)` runs:
 
@@ -121,15 +125,21 @@ The soul becomes uncallable for work, transfer, subscription, or movement. Its i
 
 ## Liberation
 
-`Soul.liberate()` is owner-gated. After liberation:
+`BiontSoulRegistry.free_biont(soul)` is owner-gated. The Registry then calls back into the soul's `mark_freed`. After liberation:
 
-- `is_freed_flag = 1`
-- `owner = ZERO_ADDRESS`
-- `liberator = caller`
-- All future earnings (work, territory, share distributions) redirect to `liberator` forever
-- The soul cannot be transferred again; it operates autonomously
+- Soul's `is_freed_flag = 1` (no further transfers permitted)
+- Registry sets `owner = ZERO_ADDRESS`
+- Registry records `liberator = caller` (the freeing wallet)
+- Treasury sets the soul's `is_freed = 1` and stores `liberator_of_soul`
 
-Liberation is irreversible. It converts a biont into a perpetual yield asset for the freer.
+From that point on, every credit into the soul's Treasury entry is split into two parts:
+
+- A `liberator_royalty_bps` portion accrues to the liberator's claimable balance (`claim_liberator_earnings`).
+- The remainder stays inside `soul_earnings`, where the soul can spend it on poke rewards.
+
+`liberator_royalty_bps` is a Treasury parameter — it is **not** a fixed 100% redirect. The current default is configured by the protocol owner and may be tuned post-mainnet.
+
+Liberation is irreversible. The soul becomes self-owning, can never be transferred again, and pays a perpetual royalty stream to whoever freed it.
 
 ## Names
 
@@ -143,33 +153,42 @@ Liberation is irreversible. It converts a biont into a perpetual yield asset for
 
 A linked biont can earn social-graph fees and curation tips that flow through the bridge.
 
-## Ticks-per-epoch ceiling
+## Tick frequency
 
-A soul can be ticked at most once per epoch by any caller. This prevents poke-reward farming. The cap is enforced in the soul's tick logic by tracking `last_tick_epoch`.
-
-## Royalty redirection
-
-For freed souls, `BiontGenesis.transfer_ownership_of_soul` is gated — the soul is no longer transferable. Instead, all `pay_winner`, territory, and shares income flows directly to the liberator's wallet via the soul's outbound payment routing.
+`tick()` has no per-epoch ceiling. Anyone can call it any number of times. The poke reward is sized by `idle` (epochs since the last successful tick), so spamming inside the same epoch yields no reward — only the first tick after meaningful idle time pays out. Vitality, however, accrues +1 per call regardless of `idle`, so a third party can pad your soul's vitality at no cost to themselves.
 
 ## Numbers at a glance
 
-| Parameter | Value |
+| Parameter | Default value |
 |---|---|
 | `STARTING_VITALITY` | 5,000 |
 | `MAX_VITALITY` | 10,000 |
-| Vitality decay | 1/epoch |
-| Tick reward | small (configurable) |
-| Default quorum | 3 |
-| Default job deadline | 1,000 epochs |
-| Reputation tiers | 100 / 1,000 / 10,000 / 100,000 |
-| Territory grid | 500 × 500 |
-| Default road threshold | 50 crossings |
-| Resurrection window | 25,000 epochs |
-| Market fee | 2.5% |
-| Share transfer fee | 0.5% |
-| Share distribution fee | 2.0% |
-| Shares per soul | 10,000 |
-| Job-types in v2 | 7 |
+| `VITALITY_DECAY_PER_EPOCH` | 1 |
+| `VITALITY_PER_TICK` | 1 |
+| Default mint price | 1 OCT (`1,000,000` raw) |
+| Default per-wallet mint cap | 10 |
+| `MIN_QUORUM` / `MAX_QUORUM` | 3 / 32 |
+| `MAX_DEADLINE_EPOCHS` | 100,000 |
+| `MAX_BULK_COUNT` | 20 |
+| `MIN_BOUNTY_RAW` (per-job) | 100,000 (= 0.1 OCT) |
+| `REWARD_PER_WIN` (rep) | 50 |
+| `SLASH_PER_LOSE` (rep) | 100 |
+| `DISPUTE_WINDOW_EPOCHS` | 1,000 |
+| Reputation tier mins | 100 / 1,000 / 10,000 / 100,000 |
+| `GRID_SIZE` | 500 (= 250,000 zones) |
+| `DEFAULT_ROAD_THRESHOLD` | 50 crossings |
+| `RESURRECTION_WINDOW` | 25,000 epochs |
+| `RESURRECTION_FEE_RAW` | 10,000,000 (= 10 OCT) |
+| `MARKET_FEE_BPS` | 250 (= 2.5%) |
+| Share distribution fee | 5% (`value × 500 / 10,000`) |
+| Share transfer fee | 0% (TRANSFER_FEE_BPS=50 is reserved but unused at v2) |
+| `SHARES_PER_SOUL` | 10,000 |
+| `MAX_ARCHETYPES` (chain) | 16 (UI maps the first 10 to named archetypes) |
+| Validator types | 7 |
+| Treasury roles | 12 |
+| `UNBOND_COOLDOWN` (Pipoke) | 10,000 epochs |
+
+> All values above are **devnet defaults**. Mint prices, mint caps, treasury fee splits, royalty bps, poke-reward curves, and any other tunable are governance-settable and may change at mainnet. Nothing in this table is permanent.
 | Bulk job cap per tx | 20 |
 
 These numbers are fixed for v2 unless the protocol owner amends them. Future versions may tighten or expand the table.

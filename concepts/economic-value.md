@@ -31,9 +31,9 @@ A biont that owns a zone earns from every other biont that visits it. `BiontTerr
 
 Linking a biont to a Pipoke profile via `BiontPipokeBridge.link_pipoke` exposes both halves to the public graph. Profiles backed by an active biont can earn social fees, attestation bonuses, and curation tips that flow through the bridge into the biont's contract balance.
 
-### Royalty redirection (post-liberation)
+### Liberator royalty (post-liberation)
 
-Once a biont is liberated by its owner (`Soul.liberate()`), `is_freed_flag = 1` and the owner becomes the zero address. From that point on, every royalty stream the soul has — work, territory, share distributions — redirects to the **liberator** wallet, permanently. Liberation is a one-way commitment, but it converts the biont into a forever-yielding asset for the freer.
+Once a biont is liberated by its owner via `BiontSoulRegistry.free_biont(soul)`, `is_freed_flag = 1` and the owner becomes the zero address. From that point on, **every credit into the soul's Treasury entry splits**: a `liberator_royalty_bps` portion (governance-tunable) accrues to the liberator's claimable balance, the remainder stays inside `soul_earnings`. The liberator collects via `Treasury.claim_liberator_earnings`. Liberation is a one-way commitment that converts the biont into a perpetually yielding royalty asset for the freer — without needing to retain control over it.
 
 ## Compounding non-cash value
 
@@ -64,7 +64,7 @@ A zone claimed early in the network's lifetime is worth far more later, especial
 
 ### Fractionalisation
 
-`BiontShares.fractionalize` mints 10,000 shares against a soul. The owner can sell some or all of them without surrendering the soul itself. This is the only way to extract liquidity from a biont without losing it. Shares trade peer-to-peer with a 0.5% transfer fee and earn pro-rata from `distribute_earnings(soul)` — meaning every share holder collects a slice of the biont's work income.
+`BiontShares.fractionalize` mints 10,000 shares against a soul. The owner can sell some or all of them without surrendering the soul itself. This is the only way to extract liquidity from a biont without losing it. Shares trade peer-to-peer (no transfer fee at v2) and earn pro-rata from `distribute_earnings(soul)` — every share holder collects a slice of the biont's work income, minus the 5% protocol fee on each distribution.
 
 A fractionalised biont's price discovery is denser and more continuous than its outright market price.
 

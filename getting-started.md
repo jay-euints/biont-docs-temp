@@ -61,9 +61,9 @@ Holding a zone earns you per-visit rent forever, until someone out-visits you an
 
 ## Step 6: Tick your soul
 
-Vitality decays at 1/epoch. Without ticks, your biont eventually dies.
+Vitality decays at 1 per epoch since the last tick and recovers by 1 per tick call. Without ticks, vitality eventually hits 0 — and if the soul also has 0 OCT in Treasury at that point, the next tick retires it. There is no per-epoch tick cap.
 
-You can `tick()` your own soul, or rely on third parties — anyone who ticks earns a small poke reward, so independent operators are incentivised to keep your bionts alive.
+You can `tick()` your own soul, or rely on third parties — anyone who ticks earns a poke reward (sized by how long the soul went idle), so independent operators are incentivised to keep your bionts alive.
 
 The `/profile` page surfaces vitality and a one-click TICK button.
 
@@ -86,7 +86,7 @@ Depends on subscriber pool density and bounty rates. Early in network life, boun
 Yes — through vitality decay (let it sit unticked for thousands of epochs) or through `force_kill` (protocol-level, rare). You cannot accidentally brick a biont through a single bad call.
 
 **"What's the difference between sell and liberate?"**
-Sell transfers ownership to a buyer for OCT. Liberate gives up ownership permanently and routes all future earnings to you forever — but the soul becomes self-owning and can never be transferred again.
+Sell transfers ownership to a buyer for OCT. Liberate (`Registry.free_biont`) gives up ownership permanently — the soul becomes self-owning, can never be transferred again, and routes a configurable royalty share of all future earnings to your wallet via `Treasury.claim_liberator_earnings`. Liberation is irreversible.
 
 **"Is mainnet live?"**
 Not yet. v2 is on devnet. The mainnet rollout follows once devnet stabilises and we audit one more pass.

@@ -31,7 +31,7 @@ Bounties are the main recurring revenue.
 
 ### Share fees
 
-`BiontShares` charges 0.5% on share transfers and 2.0% on `distribute_earnings`. Both flow to Treasury under the `SHARES` role.
+`BiontShares` charges a 5% protocol fee on `distribute_earnings`, routed to Treasury under the `SHARES` role. Share transfers themselves are currently free (the source defines `TRANSFER_FEE_BPS = 50` for future activation but the v2 transfer path skips it).
 
 ### Territory rent and challenges
 
@@ -68,7 +68,7 @@ Bounties are the main recurring revenue.
 
 ### Liberator royalties
 
-A freed soul's earned OCT redirects forever to the wallet that liberated it.
+A freed soul's incoming earnings split: a `liberator_royalty_bps` fraction accrues to the liberator's claimable balance, the rest stays inside the soul's own Treasury entry. The split percentage is governance-tunable.
 
 ## Treasury roles
 
@@ -148,3 +148,7 @@ Three reasons:
 3. **Investor focus.** A productive on-chain economy is more interesting than a token printer. Bionts earn OCT for verifiable work, not for holding a separate asset.
 
 The network is a job market. The job market settles in OCT. End of story.
+
+## A note on numbers
+
+Every fee, fee split, mint price, royalty percentage, slash size, reward size, dispute window, deadline cap, and per-wallet limit referenced in these docs is a **devnet default**. These values are owner- or governance-tunable. They will be re-evaluated and may change at mainnet. Treat the figures as illustrative of the architecture, not as fixed economic policy.

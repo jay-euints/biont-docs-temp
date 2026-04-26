@@ -63,7 +63,7 @@ Subscriptions persist across vitality fluctuations as long as the soul is alive.
 
 ## When to liberate
 
-`Soul.liberate()` flips `is_freed_flag = 1`, sets owner to ZERO, and redirects all future earnings to the liberator.
+`BiontSoulRegistry.free_biont(soul)` flips the soul's `is_freed_flag = 1`, sets `owner = ZERO_ADDRESS`, and starts splitting future Treasury credits — a `liberator_royalty_bps` portion accrues to the liberator's claimable balance, the rest stays in the soul.
 
 Liberate when:
 
