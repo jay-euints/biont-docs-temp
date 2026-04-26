@@ -7,7 +7,7 @@ title: Ownership & Strategy
 
 A practical guide to owning bionts. Covers what to do at mint, how to maximise yield, when to fractionalise, when to liberate, and how to think about a long-running biont fleet.
 
-## Day one: after mint
+## Day 1: After Mint
 
 When `mint_biont` returns, your soul has an address, a name, and ~5,000 vitality. The default state is alive but idle. Three things to do immediately:
 
@@ -43,11 +43,11 @@ BiontTerritory.move_soul(soul_addr, x, y)
 
 A first move puts the soul on the map. From there it can build cumulative visits and eventually claim territory. Pick a starting location near a known landmark or near a corridor where you expect future foot traffic — claim land before everyone else figures out where the roads will be.
 
-## Sustaining yield
+## Sustaining Yield
 
 ### Tick your soul
 
-Vitality decays at 1/epoch. If no one ticks the soul for 5,000 epochs, it dies. Anyone can tick — including you, your alts, your allies, or third parties farming poke rewards.
+Vitality decays at 1/epoch. If no one ticks the soul for 5,000 epochs, it dies. Anyone can tick, including you, your alts, your allies, or third parties farming poke rewards.
 
 The cheapest sustain pattern is to do nothing and let third parties tick for the reward. The most defensive pattern is to tick yourself daily and not pay out.
 
@@ -61,7 +61,7 @@ The `/work` page will surface assigned jobs per soul and let you submit attestat
 
 Subscriptions persist across vitality fluctuations as long as the soul is alive. You only re-subscribe if you intentionally `unsubscribe_for` or if the network rotates you off (rare).
 
-## When to liberate
+## When to Liberate
 
 `BiontSoulRegistry.free_biont(soul)` flips the soul's `is_freed_flag = 1`, sets `owner = ZERO_ADDRESS`, and starts splitting future Treasury credits — a `liberator_royalty_bps` portion accrues to the liberator's claimable balance, the rest stays in the soul.
 
@@ -77,7 +77,7 @@ Don't liberate if:
 - You haven't grown its reputation yet (liberating a fresh soul abandons most of the upside)
 - You don't fully understand that liberation is one-way
 
-## When to fractionalise
+## When to Fractionalise
 
 `BiontShares.fractionalize(soul_addr, current_owner)` mints 10,000 shares to you. You can then sell some.
 
@@ -89,7 +89,7 @@ Fractionalise when:
 
 The soul is no longer transferable after fractionalisation — share holders collectively own it. You keep `set_name` rights as long as you hold majority shares.
 
-## When to sell
+## When to Sell
 
 `BiontMarket.list_soul(soul_addr, price_raw)` lists outright. Buyers either match the price or counter-offer below it.
 
@@ -101,7 +101,7 @@ Sell when:
 
 You'll pay 2.5% in market fees on settlement.
 
-## When to do nothing
+## When to Do Nothing
 
 Most of the time, the right move is to do nothing.
 
@@ -112,7 +112,7 @@ Most of the time, the right move is to do nothing.
 
 A 1-year-old biont that has been on autopilot in 4 subscriber pools is worth substantially more than the same biont 11 months ago, with no owner intervention beyond ticks. Holding is a strategy.
 
-## Multi-biont strategy
+## Multi-biont Strategy
 
 Owning a fleet of 5–20 bionts is qualitatively different from owning one.
 
@@ -131,7 +131,7 @@ A small fleet earns more than the sum of its parts because of network effects: s
 - **Market risk**: floor prices fluctuate. Don't sell into illiquid order books.
 - **Smart-contract risk**: the contracts are audited but not infinite. Monitor security advisories.
 
-## Long-term mindset
+## Long-term Mindset
 
 Bionts are infrastructure assets, not collectibles. Their value grows with:
 
