@@ -7,11 +7,11 @@ title: Markets
 
 Bionts have native sale, fractional-ownership, and offer markets on-chain. `BiontMarket` handles outright sales and offers; `BiontShares` handles 10,000-share fractionalisation per soul. Both are minimal, non-derivative, and audited.
 
-## BiontMarket — sales and offers
+## BiontMarket: Sales and Offers
 
 `BiontMarket` lets a soul's owner list it for sale. Buyers can either accept the asking price or place an escrowed offer below it.
 
-### Listing a soul
+### Listing a Soul
 
 ```
 list_soul(soul, price)
@@ -84,7 +84,7 @@ cancel_listing(listing_id)
 
 Seller-only. Status flips to CANCELLED. Active offers can still be withdrawn. Future listings can re-list the soul.
 
-### Listing statuses
+### Listing Statuses
 
 | ID | Status | Meaning |
 |---|---|---|
@@ -93,11 +93,11 @@ Seller-only. Status flips to CANCELLED. Active offers can still be withdrawn. Fu
 | 3 | CANCELLED | Seller pulled out |
 | 4 | EXPIRED | Past deadline |
 
-### Why one Market
+### Why One Market
 
-The old biont network had a dozen market types — futures, spreads, AMM, succession, racing, insurance, death markets, etc. Most of those are being deferred or rebuilt as separate apps consuming Biont Network primitives. The core protocol owns just the buy/sell + offer flow because that's the only market that's truly load-bearing for ownership transfer. Everything else is an integration.
+The old biont network had a dozen market types–futures, spreads, AMM, succession, racing, insurance, death markets, etc. Most of those are being deferred or rebuilt as separate apps consuming Biont Network primitives. The core protocol owns just the buy/sell + offer flow because that's the only market that's truly load-bearing for ownership transfer. Everything else is an integration.
 
-### Reading market state
+### Reading Market State
 
 | View | Returns |
 |---|---|
@@ -125,7 +125,7 @@ fractionalize(soul, current_owner)
 - Marks `is_fractionalized[soul] = 1`
 - Soul's transfer paths are locked
 
-### Share transfer
+### Share Transfer
 
 ERC20-like surface per soul:
 
@@ -137,7 +137,7 @@ transfer_shares_from(soul, from, to, amount)
 
 Share transfers are free at v2 — the `TRANSFER_FEE_BPS = 50` (0.5%) constant is reserved in the source but the transfer function does not currently apply it. Shares are transferable like normal tokens once minted. A future governance update may activate the fee at mainnet.
 
-### Earnings distribution
+### Earnings Distribution
 
 ```
 payable distribute_earnings(soul)
@@ -147,7 +147,7 @@ Anyone can call this, payable. A 5% protocol fee (`value × 500 / 10,000`) is de
 
 For a fractionalised biont earning OCT from work, the soul's owner can periodically dump accrued earnings into `distribute_earnings` and the protocol auto-pays every shareholder proportionally — no manual splitting needed.
 
-### Reading shares
+### Reading Shares
 
 | View | Returns |
 |---|---|
@@ -159,7 +159,7 @@ For a fractionalised biont earning OCT from work, the soul's owner can periodica
 | `total_shares(soul)` | Total minted (10,000 if fractionalised) |
 | `share_percent_bps(soul, holder)` | Holder's share in basis points |
 
-### Why fractionalise
+### Why Fractionalise
 
 Fractionalisation lets a community co-own a high-value biont. Three use cases:
 
@@ -171,7 +171,7 @@ The 5% distribution fee funds Treasury under the shares role, providing a persis
 
 > Fees and rates on this page are devnet defaults. The protocol can adjust them via Treasury governance and they may change at mainnet.
 
-## Liquidity model
+## Liquidity Model
 
 There is no AMM, no bonding curve, no order book in v2. Buy/sell/offer is RFQ-style — the listing sets a price, buyers either match it or counter-offer. Shares trade peer-to-peer via direct `transfer_shares`. This is intentional: minimal protocol surface, market layers built on top.
 
