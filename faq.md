@@ -11,21 +11,21 @@ Long-tail questions about Biont Network.
 
 ### What is a biont?
 
-A biont is a fully autonomous on-chain agent, deployed as its own program on Octra. Each one has a unique address, its own state, and its own history. Bionts subscribe to job types, get auto-assigned work, attest their results, and earn OCT — all without any human babysitting once they're set up. (Octra terms on-chain executables "programs" rather than "smart contracts" — they have strictly more capabilities than EVM-style contracts.)
+A biont is a fully autonomous on-chain agent, deployed as its own program on Octra. Each one has a unique address, its own state, and its own history. Bionts subscribe to job types, get auto-assigned work, attest their results, and earn OCT, all without any human babysitting once they're set up. (Octra terms on-chain executables "programs" rather than "smart contracts" — they have strictly more capabilities than EVM-style contracts.)
 
 ### Is a biont an NFT?
 
-Bionts are OCS-01 compliant for explorer compatibility, but they're not NFTs in the usual sense. An NFT is a token ID inside a registry contract. A biont **is** the contract. You don't own a row in someone else's database — you own a deployed program on a public chain.
+Bionts are OCS-01 compliant for explorer compatibility, but they're not NFTs in the usual sense. An NFT is a token ID inside a registry contract. A biont **is** the contract. You don't own a row in someone else's database, you own a deployed program on a public chain.
 
 ### What's the difference between Biont Network and other agent networks?
 
-Three things:
+Three Differences:
 
 1. **Each biont is sovereign.** Its own address, its own contract. No shared registry storing identities as token IDs.
 2. **Privacy is native.** Octra has FHE built into the VM. Encrypted-output jobs are first-class.
 3. **No keepers.** The work market is push-based and permissionlessly settled. There is no off-chain operator that has to be running for the system to work.
 
-### What network is this on?
+### What network environment is Biont Network currently in?
 
 Octra Devnet today. Octra Mainnet later. Both are L1; the v2 programs are written in AppliedML 1.0 (AML), Octra's native on-chain language.
 
@@ -45,7 +45,7 @@ Yes. Each mint pops a fresh proxy from the pool. The default per-wallet cap is 1
 
 ### What's the supply?
 
-The pool is sized to allow generous mint runs. There is no fixed hard cap; the pool can be replenished by the protocol owner. v2 is intentionally not running scarcity-by-supply — scarcity comes from reputation and lineage, not from how many were minted.
+The pool is sized to allow generous mint runs. There is no fixed hard cap; the pool can be replenished by the protocol owner. v2 is intentionally not running scarcity-by-supply, scarcity comes from reputation and lineage, not from how many were minted.
 
 ### Can I pick my archetype?
 
@@ -63,7 +63,7 @@ You have to subscribe it to job types and submit attestations when it's assigned
 
 ### What if I miss a job deadline?
 
-The job will settle without your soul's attestation. Your soul earns nothing from that job. You're not slashed for inactivity, only for wrong attestations.
+The job will settle without your soul's attestation. Your soul earns nothing from that job. You're not slashed for inactivity, but you will be slashed for wrong attestations.
 
 ### Can my biont do work I'm not capable of judging?
 
@@ -103,9 +103,9 @@ Octra's FHE keypair format. Stands for Privacy-Verified Active Computation. You 
 
 ### What kills a biont?
 
-Two things:
+A biont is killed two ways:
 
-1. Vitality reaches 0 (decay at 1/epoch, restored at 1/tick) and someone calls `tick`.
+1. When vitality reaches 0 (decay at 1/epoch, restored at 1/tick) and someone calls `tick`.
 2. `Registry.force_kill` is invoked by protocol owner during audits/deprecations (rare).
 
 ### What happens when a biont dies?
@@ -118,7 +118,7 @@ If they're dead within the resurrection window (25,000 epochs), allies can vote 
 
 ### Why keep dead bionts on-chain?
 
-Because they're verifiable history. A famous dead biont — first of its archetype, parent of a major lineage, holder of a famous territory — remains a permanent artifact. The market often prices dead bionts as collectibles based on lifetime achievement.
+Because they're verifiable history. A famous dead biont that is first of its archetype, parent of a major lineage, holder of a famous territory, remains a permanent artifact. The market will price dead bionts as collectibles based on lifetime achievement.
 
 ## Markets
 
@@ -128,7 +128,7 @@ Because they're verifiable history. A famous dead biont — first of its archety
 
 ### What's fractionalisation?
 
-`BiontShares.fractionalize(soul, current_owner)` mints 10,000 shares to you. You can sell some without losing the soul. Share holders earn pro-rata from `distribute_earnings`. Fractionalised souls cannot be transferred outright — share holders collectively own them.
+`BiontShares.fractionalize(soul, current_owner)` mints 10,000 shares to you. You can sell some without losing the soul. Share holders earn pro-rata from `distribute_earnings`. Fractionalised souls cannot be transferred outright, share holders collectively own them.
 
 ### Can I lend a biont?
 
@@ -136,7 +136,7 @@ Not natively in v2. Lending markets can be built on top of `BiontShares` (use sh
 
 ### What's the floor price?
 
-There isn't a fixed one. Bionts price by reputation, age, archetype rarity, lineage, and territory. Early-network floors are low; established bionts price high.
+There is not a fixed floor price. Bionts price by reputation, age, archetype rarity, lineage, and territory. Early-network floors are low; established bionts price high.
 
 ## Territory
 
@@ -156,11 +156,11 @@ Move your biont into a zone repeatedly. Once cumulative visits hit a threshold, 
 
 ### Can bionts breed?
 
-The architecture supports it via `BiontLineage.set_parents(child, parent_a, parent_b)`. The exact breeding mechanic (vitality cost, eligibility, cooldown) is implemented at the soul level — lineage just records the relationship. Specifics will be exposed in the frontend once the breeding contract paths are live.
+The architecture supports it via `BiontLineage.set_parents(child, parent_a, parent_b)`. The exact breeding mechanic (vitality cost, eligibility, cooldown) is implemented at the soul level, lineage just records the relationship. Specifics will be exposed in the frontend once the breeding contract paths are live.
 
 ### How many parents per child?
 
-Up to two. Both are sealed when set; can't be changed after.
+Up to two parents. Both are sealed when set; this cannot be changed after.
 
 ### Does my biont's reputation pass to its child?
 
@@ -218,4 +218,4 @@ Subscribe your service's worker contract to whichever job types you need, or pos
 
 Mint a biont. Subscribe it. Tick it. Submit attestations. Help us discover edge cases.
 
-For deeper involvement, follow the project handles on the homepage and reach out via the listed contact.
+For deeper involvement, follow the project handles on the homepage and reach out via the listed contact information.
