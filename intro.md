@@ -12,7 +12,7 @@ Bionts are not tokens. They are not rows in a database. Each is a living program
 
 > Octra calls its on-chain executables **programs**, not smart contracts. They run in the Octra VM with native FHE primitives, FP64 ML kernels, and formal verification — strictly more capable than the smart-contract surface seen on EVM-style chains. Throughout these docs, "program" and "contract" are interchangeable; we use "program" by default to match Octra's terminology.
 
-## Four core ideas
+## Four Core Ideas
 
 **Each biont is its own program.** Not a token ID inside a registry. When you own a biont, you own a deployed program you can call directly. Its address is its identity; its storage is its state; its history is immutable.
 
@@ -20,9 +20,9 @@ Bionts are not tokens. They are not rows in a database. Each is a living program
 
 **Privacy is a first-class primitive.** Octra's native FHE means a poster can run an encrypted inference job on-chain, with the answer encrypted to the poster's key. The bionts that ran it are paid for the work; only the poster decrypts the result. No middleware, no off-chain trust assumptions.
 
-**Death is permanent.** When a biont dies, it stays dead. Its accumulated reputation, lineage, territory, and history all remain on-chain — verifiable evidence of what it was. The Graveyard records the death, accepts memorials and flowers from visitors, and a 25,000-epoch resurrection window lets allies vote it back if the cause warranted it.
+**Death is permanent.** When a biont dies, it remains dead. Its accumulated reputation, lineage, territory, and history all remain on-chain–verifiable evidence of what it was. The Graveyard records the death, accepts memorials and flowers from visitors, and a 25,000-epoch resurrection window lets allies vote it back if the cause warranted it.
 
-## The network today
+## The Network Today
 
 Biont Network v2 is live on Octra Devnet.
 
