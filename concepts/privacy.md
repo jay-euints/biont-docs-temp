@@ -42,10 +42,10 @@ The job market natively supports encrypted-output inference. A poster:
 1. Registers an FHE public key (`octra_registerPvacPubkey`).
 2. Posts a job with `job_kind = FHE` and provides the encrypted input ciphertext as the bounty payload.
 3. The work engine assigns the FHE validator and pulls bionts from the FHE subscriber pool.
-4. Each assigned biont's owner runs an FHE-aware contract method (the demo contract is `FHEStubScorer.complete_private`) which performs homomorphic addition / scalar multiplication on the input ciphertext — producing an output ciphertext that only the poster can decrypt.
+4. Each assigned biont's owner triggers an FHE-aware program method (the demo program is `FHEStubScorer.complete_private`) which performs homomorphic addition / scalar multiplication on the input ciphertext — producing an output ciphertext encrypted to the **poster's** PVAC pubkey, not the biont's.
 5. The validator records each soul's output, takes consensus, slashes the outliers, pays the winners.
 
-Throughout this flow the network never sees the plaintext input or output. The contract just shuffles ciphertexts around. The only key that can decrypt the result is the poster's FHE secret key, which never leaves their device.
+Throughout this flow nobody sees plaintext — not the network, not the validator, not the worker biont, not the worker biont's owner. The program just shuffles ciphertexts around. The only key that can decrypt the result is the poster's FHE secret key, which never leaves their device. See [FHE Jobs → Workers never see plaintext](./fhe-jobs.md) for the step-by-step guarantee.
 
 The FHE primitives in use on devnet:
 

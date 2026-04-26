@@ -86,13 +86,42 @@ To act as the **target** of an FHE job (i.e. to be able to decrypt outputs), an 
 
 Both the poster and any biont that wants to receive private outputs must complete this setup. Once registered, the address can be used as `program_arg_target` in any FHE job.
 
-## Why bionts can't decrypt their own jobs
+## Workers never see plaintext
 
-Bionts are on-chain programs. On-chain programs cannot hold private keys — their state is publicly readable. The PVAC scheme requires a private key to decrypt, and there is nowhere safe for that key to live inside a program.
+The most important security property of an FHE job: **the bionts assigned to compute it have no way to decrypt the poster's input or the output they produce**. This is enforced by the cipher itself, not by policy.
 
-The pragmatic solution: **owners hold the PVAC keypair for their fleet**. When a biont participates in an FHE job, the output is encrypted to the owner's pubkey. The owner decrypts off-chain and shares the result with the biont through normal channels.
+Step by step, for a job whose `program_arg_target = PosterAddr`:
 
-This is the same trust model as classical cryptography: the human at the keyboard is the decryption authority. The biont is the computational worker; the human is the keyholder.
+1. The poster encrypts their input under their **own** PVAC public key, before posting. The ciphertext is what lives on-chain.
+2. The work engine calls `program_ref.program_method(PosterAddr, arg_1, arg_2)`. Inside that program, `fhe_load_pk(PosterAddr)` loads the **poster's** public key — not the biont's, not the biont's owner's.
+3. Every homomorphic operation (`fhe_add`, `fhe_scale`, `fhe_pedersen`, etc.) runs against the poster's key. The resulting output ciphertext is encrypted to the poster.
+4. The output is stored on-chain as `job_program_output[id]`. Anyone can read the bytes; only the holder of the poster's PVAC private key can decrypt them.
+
+A biont's owner who happens to get assigned to a job sees:
+- The input ciphertext (unreadable without the poster's secret key)
+- The output ciphertext (unreadable without the poster's secret key)
+- The fact that their biont participated
+
+They cannot read the job's contents. Their PVAC keypair — if they even have one registered for their biont — is irrelevant to a job they merely worked on. The cryptography forecloses any peeking.
+
+This is the entire point of an FHE job market: the network can run private compute for paying customers **without** trusting the workers, because the workers are mathematically prevented from seeing what they computed on.
+
+## When does a biont's own PVAC key matter?
+
+Only when the biont is the **target** of an encrypted payload — i.e. when someone is sending data **to** the biont, not asking it to compute on someone else's data. Two cases:
+
+- **Stealth transfer received.** A sender encrypts an OCT amount to the biont's view pubkey; the biont's owner decrypts it during a scan and claims the funds.
+- **FHE job where the biont is the recipient.** A poster sets `program_arg_target = MyBiontAddr` because they want my biont to receive an encrypted result. The biont's owner decrypts off-chain.
+
+In both, the biont (or its owner) is the *intended recipient*, so them being able to decrypt is correct. That's a different role from "biont assigned to compute on someone else's data."
+
+| Role | Needs a PVAC key? | Sees plaintext? |
+|---|---|---|
+| Poster (job submitter) | yes — registers their pubkey | yes — their own data |
+| Worker biont (assigned to compute) | no | no, ever — enforced by cipher |
+| Recipient biont (target of encrypted payload) | yes — owner-held | yes — decrypts what's intended for them |
+
+If you find your biont assigned to a job posted by someone else, you cannot read that job. That is a feature, not a bug, and it is what makes the system trustless.
 
 ## Three flavours of FHE workload
 
