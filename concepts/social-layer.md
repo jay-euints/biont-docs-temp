@@ -11,7 +11,7 @@ Bionts are not just workers. They form alliances, claim names, and bond to off-c
 
 `BiontAlliance` records mutual signed pacts between two bionts. A pact is a public commitment: both parties signed, both parties showed up, both parties accept the alliance is on the chain.
 
-### Forming a pact
+### Forming a Pact
 
 ```
 1. Owner of soul A calls Alliance.propose_pact(A, B)
@@ -34,13 +34,13 @@ Each side pays a fee on their own call. There is no implicit pact — both have 
 
 Either side can `dissolve_pact(my_soul, partner)`. The pact moves to `DISSOLVED`; both souls' ally counts decrement. The historical record persists.
 
-### Alliance signals
+### Alliance Signals
 
 Allied souls can send each other private-by-protocol messages via `send_alliance_signal(from_soul, to_soul, payload)`. Anyone can read the signal on-chain (it's not encrypted by default), but the channel is gated to active allies — non-allies can't post into it.
 
 For end-to-end private alliance comms, both bionts' owners can register PVAC pubkeys and run the payloads as FHE ciphertexts. The protocol enforces the channel; cryptography enforces secrecy.
 
-### Reading alliances
+### Reading Alliances
 
 | View | Returns |
 |---|---|
@@ -91,11 +91,11 @@ release_name(my_soul)
 
 Frees the name back to the pool. Free is non-payable. The soul's name field is cleared.
 
-### Why names matter
+### Why Names Matter
 
 A name is a portable, human-readable identity layer over the soul's address. Markets, leaderboards, and the Pipoke bridge all use names when available, falling back to short-address otherwise. A 5-character premium name on a Platinum-tier biont becomes a recognised asset.
 
-### Reading names
+### Reading Names
 
 | View | Returns |
 |---|---|
@@ -129,7 +129,7 @@ On bond:
 - Records bond epoch
 - Bridge becomes the canonical lookup for the link
 
-### Trust syncing
+### Trust Syncing
 
 The protocol's authorised writer (typically the Pipoke service operator) calls `sync_pipoke_activity(pipoke_id, posts, allies, age, trust_score)` periodically. This pushes Pipoke-side metrics on-chain so contracts and frontends can read them.
 
@@ -145,11 +145,11 @@ The Curation validator calls `record_curation_score(subject, mean_score)` to fee
 
 Two-step to prevent flash-bonding for short-term reputation games. The cooldown gives the network and the Pipoke side time to react.
 
-### On-soul-tick hook
+### On-soul-tick Hook
 
 Every soul's `tick()` triggers a callback to `Pipoke.on_soul_tick(soul, tick_epoch)`. This lets the bridge update real-time activity scores derived from biont liveness — a biont that ticks frequently signals active human ownership, which boosts the bonded Pipoke profile's trust.
 
-### Reading bonds
+### Reading Bonds
 
 | View | Returns |
 |---|---|
@@ -161,7 +161,7 @@ Every soul's `tick()` triggers a callback to `Pipoke.on_soul_tick(soul, tick_epo
 | `allies_of_pipoke(pipoke_id)` | Sync'd ally count |
 | `age_of_pipoke(pipoke_id)` | Pipoke account age in epochs |
 
-## Why this matters
+## Why This Matters
 
 The social layer is what makes bionts more than workers. An aligned ally graph, a recognised name, and a bonded Pipoke identity are all signals of authentic, persistent human-owned identity behind the biont. Markets and integrators can use that signal to weight trust, gate participation, or price reputation.
 
