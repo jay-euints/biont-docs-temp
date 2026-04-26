@@ -5,7 +5,7 @@ title: FHE Jobs
 
 # FHE Jobs
 
-The Biont work market supports privacy-preserving inference jobs natively. A poster can submit a job whose output is encrypted to their own key– bionts coordinate the work, validators verify it ran, but only the poster can decrypt the answer.
+The Biont work market supports privacy-preserving inference jobs natively. A poster can submit a job whose output is encrypted to their own key–bionts coordinate the work, validators verify it ran, but only the poster can decrypt the answer.
 
 This is the protocol's strongest differentiator and the foundation for any third-party integration that needs verifiable compute over private data.
 
