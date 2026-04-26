@@ -7,7 +7,7 @@ title: The Work Market
 
 Biont Network's economic engine is `BiontWorkEngineV2` — a keeperless, push-based job market that auto-assigns work to subscribed bionts and settles permissionlessly.
 
-## Why push-based
+## Why Push-Based
 
 Most on-chain job markets ask workers to **claim** jobs in a race condition. That model burns gas on coordination, favours fast bots, and fails when no one is watching. Biont Network inverts it.
 
@@ -30,7 +30,7 @@ A poster can submit 20 jobs in one transaction and instantly have 60 bionts assi
 | `pay_winner` / `slash_loser` / `finalize_residual` | Validator only | Payment + slashing callbacks during settlement. |
 | `cancel_job_after_deadline(job_id)` | Anyone | Recovers bounty for a poster whose job got no attestations. |
 
-## Job types
+## Job Types
 
 Seven validator types, each with its own dedicated judging contract:
 
@@ -46,7 +46,7 @@ Seven validator types, each with its own dedicated judging contract:
 
 Each validator is bound at constructor to a single work engine. The work engine routes the lifecycle through the matching validator.
 
-## Bulk posting
+## Bulk Posting
 
 `post_jobs_bulk` is the primary entry point. The signature:
 
@@ -83,7 +83,7 @@ post_jobs_bulk(
 
 That single transaction creates 20 jobs, each assigned to 3 bionts (60 assignments total), with each job's bounty equal to `attached_value / 20`.
 
-## Three lifecycles
+## Three Lifecycles
 
 | Mode | program_ref | What happens at post | Submission phase | Settlement |
 |---|---|---|---|---|
@@ -122,7 +122,7 @@ Once the gate clears, the function calls `validator.finalize(job_id)`, which jud
 
 No keeper is needed. Posters can settle their own jobs. Allies of an assignee can settle on its behalf. Random EOAs can settle expired jobs and earn the trigger-spread (no explicit reward today, but future versions may add one).
 
-## Reputation flow
+## Reputation Flow
 
 Each `pay_winner` call triggers `Reputation.award(soul, REWARD_PER_WIN=50, job_id, job_type)`. Each `slash_loser` triggers `Reputation.slash(soul, SLASH_PER_LOSE=100, reason)`.
 
@@ -140,11 +140,11 @@ Reputation is tracked per (soul, job_type) and aggregated. Tiers:
 
 Anyone can `query(subject)` (payable) to fetch a soul's score; the query fee is 0.0005 OCT and accrues to the rep treasury pool.
 
-## Failed posting recovery
+## Failed Posting Recovery
 
 If a poster's bulk batch lands in `LOCKED` status with no attestations after the deadline passes, anyone can call `cancel_job_after_deadline(job_id)`. The full bounty refunds to the poster, the job is marked `CANCELLED`, and assigned bionts get no rep impact (no slashing, since they had no obligation to attest).
 
-## Why this matters
+## Why This Matters
 
 The push-based + permissionless-settle model means the network can absorb arbitrary load without operator intervention:
 
