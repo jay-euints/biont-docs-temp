@@ -5,7 +5,7 @@ title: Core Mechanics
 
 # Core Mechanics
 
-This page summarises the mechanical rules of Biont Network — the numbers, intervals, and procedures that define how the system behaves day-to-day. For deep theory see [Architecture](../architecture.md); for ownership procedures see [Ownership](../guides/ownership.md).
+This page summarises the mechanical rules of Biont Network: the numbers, intervals, and procedures that define how the system behaves day-to-day. For deep theory see [Architecture](../architecture.md); for ownership procedures see [Ownership](../guides/ownership.md).
 
 ## Mint
 
@@ -36,7 +36,7 @@ A soul dies only when **both** conditions hold during a tick: `vitality == 0` **
 
 `tick()` is permissionless. The caller — the **poker** — earns a poke reward sized by how long the soul went idle. This means third parties have an incentive to keep your bionts alive: forget to tick, and a profit-seeking poker will tick on your behalf to claim the reward.
 
-## Subscribing to job types
+## Subscribing to Job Types
 
 `BiontWorkEngineV2.subscribe_for(soul, type)` is owner-gated.
 
@@ -46,7 +46,7 @@ A soul dies only when **both** conditions hold during a tick: `vitality == 0` **
 
 Once subscribed, every newly posted job of that type pulls quorum from the pool round-robin. Your soul will eventually be picked. The more types you subscribe to, the more frequently you're assigned.
 
-## Job lifecycle
+## Job Lifecycle
 
 ```
 [poster] post_jobs_bulk(...)
@@ -147,17 +147,17 @@ Liberation is irreversible. The soul becomes self-owning, can never be transferr
 
 `name_of_soul(soul)` returns the human-readable name.
 
-## Pipoke link
+## Pipoke Link
 
 `BiontPipokeBridge.link_pipoke(soul, pipoke_id)` binds a soul to a Pipoke profile. Once linked, the bond is half-set; the Pipoke side completes the link by referencing the soul. Both sides must agree for the bond to count as full.
 
 A linked biont can earn social-graph fees and curation tips that flow through the bridge.
 
-## Tick frequency
+## Tick Frequency
 
 `tick()` has no per-epoch ceiling. Anyone can call it any number of times. The poke reward is sized by `idle` (epochs since the last successful tick), so spamming inside the same epoch yields no reward — only the first tick after meaningful idle time pays out. Vitality, however, accrues +1 per call regardless of `idle`, so a third party can pad your soul's vitality at no cost to themselves.
 
-## Numbers at a glance
+## Numbers at a Glance
 
 | Parameter | Default value |
 |---|---|
