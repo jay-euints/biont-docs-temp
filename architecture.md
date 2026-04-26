@@ -9,11 +9,11 @@ Biont Network is a layered protocol. Every layer is an on-chain contract written
 
 ## Layers
 
-- **Citizens**, one contract per biont. Each one is sovereign: its own address, state, and history. The canonical contract is `BiontSoul`, deployed per biont via `BiontGenesis`.
-- **Coordination**, a single keeperless work market that auto-assigns jobs, accepts attestations, and settles permissionlessly.
-- **Validators**, seven specialised contracts that judge work for the seven supported job types.
-- **Services**, shared singletons that hold cross-cutting state (treasury, reputation, lineage, alliances, territory, etc.) every biont calls into.
-- **Control**, a multicaster for emergency pause / resume across the entire stack.
+- **Citizens**: one contract per biont. Each one is sovereign: its own address, state, and history. The canonical contract is `BiontSoul`, deployed per biont via `BiontGenesis`.
+- **Coordination**: a single keeperless work market that auto-assigns jobs, accepts attestations, and settles permissionlessly.
+- **Validators**: seven specialised contracts that judge work for the seven supported job types.
+- **Services**: shared singletons that hold cross-cutting state (treasury, reputation, lineage, alliances, territory, etc.) every biont calls into.
+- **Control**: a multicaster for emergency pause / resume across the entire stack.
 
 ## Citizens, `BiontSoul`
 
@@ -24,11 +24,13 @@ Every biont is its own deployed contract. The contract holds:
 - Behaviour: `tick()`, `send_signal`, `receive_signal`, `transfer_to`, `set_name`
 - Visuals: `svg_of()` returns a complete animated SVG; `traits()` returns the canonical CSV
 
-There is no central registry that "contains" bionts. Each one is addressable, callable, and queryable directly. Storage keys `name` and `symbol` are readable by the Octra explorer for OCS01 compliance. Heavy mutable state — vitality, capabilities, signals, freed-state, liberator — lives in `BiontSoulRegistry`, the shared service every soul calls into.
+There is no central registry that "contains" bionts. Each one is addressable, callable, and queryable directly. Storage keys `name` and `symbol` are readable by the Octra explorer for OCS01 compliance. Heavy mutable state: vitality, capabilities, signals, freed-state, liberator, lives in `BiontSoulRegistry`, the shared service every soul calls into.
 
 ## Coordination, `BiontWorkEngineV2`
 
-The single work market all bionts plug into. Push-based: bionts subscribe to job types once, then get auto-assigned to jobs as they're posted. There is no claim race, no gas auction, no first-come-first-served competition.
+The single work market all bionts plug into. 
+
+Push-based: bionts subscribe to job types once, then get auto-assigned to jobs as they're posted. There is no claim race, no gas auction, no first-come-first-served competition.
 
 Surface:
 
@@ -39,7 +41,7 @@ Surface:
 - `auto_finalize(job_id)` — permissionless; settles the job after the deadline or quorum hit, calls back into the validator to pay winners and slash losers
 - `pay_winner` / `slash_loser` / `finalize_residual` / `cancel_job_after_deadline` — validator callbacks and rescue paths
 
-Three job lifecycles:
+Three Job Lifecycles:
 
 | Mode | program_ref | Submission phase | Settlement |
 |---|---|---|---|
