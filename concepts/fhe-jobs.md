@@ -5,11 +5,11 @@ title: FHE Jobs
 
 # FHE Jobs
 
-The Biont work market supports privacy-preserving inference jobs natively. A poster can submit a job whose output is encrypted to their own key — bionts coordinate the work, validators verify it ran, but only the poster can decrypt the answer.
+The Biont work market supports privacy-preserving inference jobs natively. A poster can submit a job whose output is encrypted to their own key– bionts coordinate the work, validators verify it ran, but only the poster can decrypt the answer.
 
 This is the protocol's strongest differentiator and the foundation for any third-party integration that needs verifiable compute over private data.
 
-## What's possible
+## What's Possible
 
 Octra Network exposes `program_exec` as a first-class transaction type. A program is a deployed contract; a `program_exec` tx invokes a method on it and lets the validator run the code on-chain. Octra also has native FHE primitives: `fhe_load_pk`, `fhe_add`, `fhe_add_const`, `fhe_ser`, `fhe_deser`, `fhe_verify_zero`, `fhe_pedersen`. These are available in AML.
 
@@ -20,7 +20,7 @@ Combined, the chain can:
 - Return the ciphertext as the contract's output
 - Have only that target be able to decrypt it
 
-`BiontWorkEngineV2.post_jobs_bulk` lets a poster wire up the program reference, method, and arguments at post time. The work engine inline-executes the call inside the post tx. The output is committed to the job's state. Bionts assigned to the job act as **witnesses** — they confirm the receipt is valid; they do not see the plaintext.
+`BiontWorkEngineV2.post_jobs_bulk` lets a poster wire up the program reference, method, and arguments at post time. The work engine inline-executes the call inside the post tx. The output is committed to the job's state. Bionts assigned to the job act as **witnesses**–they confirm the receipt is valid; they do not see the plaintext.
 
 ## Anatomy of an FHE job
 
@@ -55,7 +55,7 @@ After the dispute window expires (`DISPUTE_WINDOW_EPOCHS = 1000`), anyone calls 
 - Each non-disputing assignee earns `REWARD_PER_WIN = 50` reputation
 - Job status flips to `SETTLED`
 
-## The reference implementation
+## The Reference Implementation
 
 `FHEStubScorer` is a working example deployed alongside the v2 stack. It implements a public weighted-sum scoring function:
 
@@ -102,7 +102,7 @@ A biont's owner who happens to get assigned to a job sees:
 - The output ciphertext (unreadable without the poster's secret key)
 - The fact that their biont participated
 
-They cannot read the job's contents. Their PVAC keypair — if they even have one registered for their biont — is irrelevant to a job they merely worked on. The cryptography forecloses any peeking.
+They cannot read the job's contents. Their PVAC keypair, if they even have one registered for their biont, is irrelevant to a job they merely worked on. The cryptography forecloses any peeking.
 
 This is the entire point of an FHE job market: the network can run private compute for paying customers **without** trusting the workers, because the workers are mathematically prevented from seeing what they computed on.
 
@@ -133,19 +133,19 @@ If you find your biont assigned to a job posted by someone else, you cannot read
 
 Anything that fits the shape `(public_inputs) → encrypt(result, target_pk)` can be a Biont FHE job. The work engine handles assignment, witnessing, settlement, and reward — the model contract handles the cryptography.
 
-## Stealth funding
+## Stealth Funding
 
 Posters with significant FHE workload can fund their network usage privately via Octra's stealth-transfer primitive (`op_type = "stealth"`). The receiver's encrypted balance updates atomically via an HFHE delta cipher; the amount stays private on-chain.
 
 This means a third-party rollup running thousands of proof-verification jobs through Biont Network can fund the operation without revealing per-job spend to competitors. The work itself is verifiable; the economics are private.
 
-## Dispute path
+## Dispute Path
 
 If an assigned biont believes the auto-output is wrong (e.g. they re-ran the model and got a different ciphertext), they can call `dispute(soul, job_id, alt_payload)` during the dispute window. If `dispute_count * 2 > quorum`, the job moves to `STATUS_DISPUTED` and a fresh deadline opens. The validator then judges the dispute by comparing alternative payloads — typically by re-running the model itself if it's deterministic, or by appeal to the poster's authority.
 
 For deterministic FHE models (which most are, since FHE arithmetic is reproducible), disputes converge naturally: a dishonest output is provable on-chain by anyone who runs the same `program_exec` and gets a different ciphertext.
 
-## Investor framing
+## Investor Framing
 
 Biont Network is the coordination layer for verifiable encrypted compute. Bionts make FHE jobs **scheduled, discoverable, and economically settled**. The cryptography is Octra's; the market is ours. Third-party chains, rollups, oracles, and ML-inference providers can pipe their privacy-sensitive workloads through Biont Network with a single `post_jobs_bulk` call.
 
