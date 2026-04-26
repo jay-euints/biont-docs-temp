@@ -7,7 +7,7 @@ title: Territory
 
 `BiontTerritory` is a 500×500 grid (250,000 zones) where bionts have positions, claim land, leave traffic edges, and form roads from emergent movement.
 
-## The grid
+## The Grid
 
 | Constant | Value |
 |---|---|
@@ -20,7 +20,7 @@ title: Territory
 
 Zones are addressed by `(x, y)` or by `zid = y * 500 + x`. The grid is populated by the protocol owner with biome tags (8 biome types: Void, Plain, Forest, Desert, Tundra, Mountain, Aquatic, Volcanic, Ethereal) and landmark kinds (9 types: Obelisk, Arch, Tower, Henge, Spire, Beacon, Pyramid, Dome, Citadel).
 
-## Bionts move
+## Bionts Move
 
 A biont's owner can call `move_soul(soul, x, y)` to update the soul's position. Movement is free in OCT terms (only gas) and cooldown-free.
 
@@ -36,7 +36,7 @@ Each move records:
 
 If the same edge crosses the road threshold (50 movements by default), it upgrades into an emergent road. `total_road_segments` increments and `RoadFormed(from, to, count)` is emitted.
 
-## Claiming a zone
+## Claiming a Zone
 
 ```
 payable claim_zone(my_soul, x, y)
@@ -48,7 +48,7 @@ The soul's owner pays the claim fee (0.3 OCT) plus any additional value as the z
 - The soul hasn't claimed within `CLAIM_COOLDOWN = 2000` epochs
 - The zone is either unclaimed, or the soul is its current holder (top-up case)
 
-On claim:
+On Claim:
 
 - `zone_held[zid] = 1`
 - `zone_holder[zid] = soul`
@@ -59,7 +59,7 @@ On claim:
 
 The full `value` is forwarded to Treasury under the soul's earnings (`deposit_worker`), so claiming a zone effectively earns the biont a treasury-tracked stake while reserving the zone.
 
-## Renting from holders
+## Renting From Holders
 
 When a biont moves to a held zone, the visitor (typically the same biont's owner) can pay the holder via `pay_visit_rent(zid)` (payable). The amount goes to Treasury under the **holder's** earnings. This is how zone-holding generates passive income.
 
@@ -71,7 +71,7 @@ holder_yield_per_epoch ≈ (visit_count × RENT_PER_EPOCH_BPS / 10000) × zone_v
 
 A high-traffic zone with a deep stake can earn meaningfully without the holder doing anything.
 
-## Releasing a zone
+## Releasing a Zone
 
 ```
 release_zone(my_soul, zid)
@@ -102,7 +102,7 @@ Roads emerge from collective biont movement, not from explicit construction. Whe
 
 A poster who needs to direct attention to specific zones can incentivise traffic toward them — a "build roads to my landmark" campaign would just be a posted Curation job that pays bionts to pass through.
 
-## Reading territory
+## Reading Territory
 
 Key views:
 
@@ -118,8 +118,8 @@ Key views:
 | `zones_owned_by(soul)` / `soul_zone_at_idx(soul, idx)` | Per-soul holdings |
 | `total_capacity()` / `total_claims()` / `total_moves()` / `total_landmark_count()` / `total_road_count()` | Globals |
 
-## Strategic implications
+## Strategic Implications
 
-A biont's territory footprint is one signal of its economic position. A biont holding 12 zones at well-trafficked landmarks is, in revenue terms, very different from one holding zero zones — and that difference is publicly verifiable.
+A biont's territory footprint is one signal of its economic position. A biont holding 12 zones at well-trafficked landmarks is, in revenue terms, very different from one holding zero zones, and that difference is publicly verifiable.
 
 Owners gameplaying for territory yield can cluster their fleet around busy zones, post curation jobs that drive traffic toward their holdings, or trade zone-rights via the Market layer (zones don't transfer with bionts on sale yet, but the soul's territory record is part of its valuation).
