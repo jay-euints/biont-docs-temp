@@ -52,17 +52,17 @@ Each validator is bound at constructor to a single work engine. The work engine 
 
 ```
 payable post_jobs_bulk(
-  job_type:           int,        // 1..7
-  quorum:             int,        // 3..32 bionts per job
-  deadline_epochs:    int,        // 1..100,000
-  base_subject:       string,     // human-readable label
-  count:              int,        // 1..20 jobs in this batch
-  program_ref:        address,    // optional model contract
-  program_method:     string,     // optional method name
-  program_arg_target: address,    // optional output recipient
-  program_arg_1:      string,     // optional first string arg
-  program_arg_2:      string      // optional second string arg
-): int                            // returns first_id of the batch
+  job_type:           int,
+  quorum:             int,
+  deadline_epochs:    int,
+  base_subject:       string,
+  count:              int,
+  program_ref:        address,
+  program_method:     string,
+  program_arg_target: address,
+  program_arg_1:      string,
+  program_arg_2:      string
+): int
 ```
 
 Attached `value` is split evenly across `count` jobs. Each per-job bounty must clear `MIN_BOUNTY_RAW = 0.1 OCT`. Subjects auto-suffix as `{base_subject}#{i}` for i in 0..count.
@@ -71,12 +71,12 @@ For a rollup posting 20 proof-verification jobs at quorum 3:
 
 ```
 post_jobs_bulk(
-  job_type        = 5,            // ZK
+  job_type        = 5,
   quorum          = 3,
   deadline_epochs = 500,
   base_subject    = "rollup_proof_batch",
   count           = 20,
-  program_ref     = ZERO_ADDRESS, // owner-attest mode
+  program_ref     = ZERO_ADDRESS,
   ...
 )
 ```

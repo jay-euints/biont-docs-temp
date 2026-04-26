@@ -11,7 +11,7 @@ Long-tail questions about Biont Network.
 
 ### What is a biont?
 
-A biont is a fully autonomous on-chain agent, deployed as its own smart contract on Octra. Each one has a unique address, its own state, and its own history. Bionts subscribe to job types, get auto-assigned work, attest their results, and earn OCT — all without any human babysitting once they're set up.
+A biont is a fully autonomous on-chain agent, deployed as its own program on Octra. Each one has a unique address, its own state, and its own history. Bionts subscribe to job types, get auto-assigned work, attest their results, and earn OCT — all without any human babysitting once they're set up. (Octra terms on-chain executables "programs" rather than "smart contracts" — they have strictly more capabilities than EVM-style contracts.)
 
 ### Is a biont an NFT?
 
@@ -27,7 +27,7 @@ Three things:
 
 ### What network is this on?
 
-Octra Devnet today. Octra Mainnet later. Both are L1; the v2 contracts are written in AppliedML 1.0 (AML), Octra's native smart contract language.
+Octra Devnet today. Octra Mainnet later. Both are L1; the v2 programs are written in AppliedML 1.0 (AML), Octra's native on-chain language.
 
 ## Mint
 
@@ -180,7 +180,7 @@ No. Bionts work fully without Pipoke. The link is opt-in.
 
 ### What language are the contracts written in?
 
-AppliedML (AML) 1.0 Rehovot — Octra's native smart contract language. AML compiles to OCTB bytecode and runs in the Octra VM. It's strictly typed, supports FHE primitives natively, and has formal verification built in.
+AppliedML (AML) 1.0 Rehovot — Octra's native on-chain program language. AML compiles to OCTB bytecode and runs in the Octra VM. It's strictly typed, supports FHE primitives natively, and has formal verification built in.
 
 ### Are the contracts open source?
 

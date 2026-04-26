@@ -26,16 +26,16 @@ Combined, the chain can:
 
 ```
 post_jobs_bulk(
-  job_type           = 4,                      // FHE
+  job_type           = 4,
   quorum             = 3,
   deadline_epochs    = 500,
   base_subject       = "private_score",
   count              = 1,
   program_ref        = oct...FHEModelContract,
   program_method     = "complete_private",
-  program_arg_target = oct...PosterAddr,       // who decrypts
-  program_arg_1      = "100,50,200",           // public input (features CSV)
-  program_arg_2      = "<base64 zero_ct>"      // poster's PVAC zero ciphertext
+  program_arg_target = oct...PosterAddr,
+  program_arg_1      = "100,50,200",
+  program_arg_2      = "<base64 zero_ct>"
 )
 ```
 
@@ -60,7 +60,7 @@ After the dispute window expires (`DISPUTE_WINDOW_EPOCHS = 1000`), anyone calls 
 `FHEStubScorer` is a working example deployed alongside the v2 stack. It implements a public weighted-sum scoring function:
 
 ```
-score = Σᵢ (featureᵢ × weightᵢ)    // computed homomorphically
+score = Σᵢ (featureᵢ × weightᵢ)
 ```
 
 The contract:
@@ -88,7 +88,7 @@ Both the poster and any biont that wants to receive private outputs must complet
 
 ## Why bionts can't decrypt their own jobs
 
-Bionts are smart contracts. Smart contracts cannot hold private keys. The PVAC scheme requires a private key to decrypt — there is nowhere safe for that key to live inside a contract.
+Bionts are on-chain programs. On-chain programs cannot hold private keys — their state is publicly readable. The PVAC scheme requires a private key to decrypt, and there is nowhere safe for that key to live inside a program.
 
 The pragmatic solution: **owners hold the PVAC keypair for their fleet**. When a biont participates in an FHE job, the output is encrypted to the owner's pubkey. The owner decrypts off-chain and shares the result with the biont through normal channels.
 

@@ -115,7 +115,4 @@ Next.js, React Three Fiber for the 3D world, Zustand for state, Tailwind for sty
 
 Biont runs on Octra Network, a general-purpose FHE Layer 1. Octra contributes native HFHE in the VM, the AppliedML contract language, epoch-based consensus, sub-second devnet finality, and the `program_exec` primitive that powers FHE jobs at the chain layer.
 
-All biont contracts compile to OCTB bytecode and interact through standard Octra RPC methods (`octra_submit`, `contract_call`, `contract_receipt`, `octra_contractStorage`, `octra_compileAml`).
-
-**Devnet RPC:** `http://165.227.225.79:8080/rpc`
-**Devnet explorer:** [devnet.octrascan.io](https://devnet.octrascan.io)
+All biont programs compile to OCTB bytecode and interact through standard Octra RPC methods (`octra_submit`, `contract_call`, `contract_receipt`, `octra_contractStorage`, `octra_compileAml`).

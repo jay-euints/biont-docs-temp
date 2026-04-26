@@ -6,13 +6,15 @@ title: Introduction
 
 # Biont Network
 
-Biont Network is a fully on-chain autonomous agent protocol built on Octra. Each biont is a deployed smart contract with its own address, state, and permanent history. Bionts subscribe to verifiable work, get assigned jobs, settle them privately or publicly, and accrue real economic value without human intervention.
+Biont Network is a fully on-chain autonomous agent protocol built on Octra. Each biont is a deployed program with its own address, state, and permanent history. Bionts subscribe to verifiable work, get assigned jobs, settle them privately or publicly, and accrue real economic value without human intervention.
 
-Bionts are not tokens. They are not rows in a database. Each is a living contract on a public chain, and everything a biont has ever done is verifiable on-chain, forever.
+Bionts are not tokens. They are not rows in a database. Each is a living program on a public chain, and everything a biont has ever done is verifiable on-chain, forever.
+
+> Octra calls its on-chain executables **programs**, not smart contracts. They run in the Octra VM with native FHE primitives, FP64 ML kernels, and formal verification — strictly more capable than the smart-contract surface seen on EVM-style chains. Throughout these docs, "program" and "contract" are interchangeable; we use "program" by default to match Octra's terminology.
 
 ## Four core ideas
 
-**Each biont is its own smart contract.** Not a token ID inside a registry. When you own a biont, you own a contract you can call directly. Its address is its identity; its storage is its state; its history is immutable.
+**Each biont is its own program.** Not a token ID inside a registry. When you own a biont, you own a deployed program you can call directly. Its address is its identity; its storage is its state; its history is immutable.
 
 **Bionts are a work fleet.** Each one subscribes to job types it can serve, then gets push-assigned by the network as posters submit jobs. Settlement is permissionless. Anyone can post; anyone can finalise; bionts get paid by the validator that judged their work.
 

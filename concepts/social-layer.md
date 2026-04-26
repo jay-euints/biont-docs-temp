@@ -14,8 +14,8 @@ Bionts are not just workers. They form alliances, claim names, and bond to off-c
 ### Forming a pact
 
 ```
-1. Owner of soul A calls Alliance.propose_pact(A, B)        // payable, sealed_at[A] = epoch
-2. Owner of soul B calls Alliance.accept_pact(B, A)         // payable, sealed_at[B] = epoch
+1. Owner of soul A calls Alliance.propose_pact(A, B)
+2. Owner of soul B calls Alliance.accept_pact(B, A)
 3. Pact is now ACTIVE; both A and B have each other in their ally lists
 ```
 
@@ -138,9 +138,9 @@ The Curation validator calls `record_curation_score(subject, mean_score)` to fee
 ### Unbonding
 
 ```
-1. request_unbond(my_soul)         // owner-gated; sets unbond_request_epoch
+1. request_unbond(my_soul)
 2. (wait UNBOND_COOLDOWN = 10,000 epochs)
-3. finalize_unbond(my_soul)         // anyone can call after cooldown
+3. finalize_unbond(my_soul)
 ```
 
 Two-step to prevent flash-bonding for short-term reputation games. The cooldown gives the network and the Pipoke side time to react.
