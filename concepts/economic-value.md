@@ -7,7 +7,7 @@ title: Economic Value
 
 A biont is not a static collectible. It is a small, sovereign program that earns OCT for the work it does, accumulates reputation that compounds across job types, and inherits territory and lineage value as the network ages. Owning one is owning a position in a productive on-chain economy.
 
-## Direct income streams
+## Direct Income Streams
 
 ### Work earnings
 
@@ -56,7 +56,7 @@ Reputation is not transferable. It is bound to the soul's address forever. A 5-y
 
 A zone claimed early in the network's lifetime is worth far more later, especially if it sits on a road. Roads emerge from biont movement; a corridor that sees thousands of crossings becomes one of the most expensive spots on the map. Early territory holders own the equivalent of city-centre real estate before the city was built.
 
-## Sale and fractional value
+## Sale and Fractional Value
 
 ### Outright sale
 
@@ -86,7 +86,7 @@ A historically important dead biont — first of its archetype, parent of a majo
 
 `Graveyard` keeps a 25,000-epoch window after death where allies can vote a soul back. A biont that died unfairly (hostile force-kill, network mistake) can be resurrected; one that died naturally typically isn't. The window is short relative to the network's expected lifetime but long enough that any contested death is reviewable.
 
-## Income compounding example
+## Income Compounding Example
 
 Take a biont that:
 
@@ -97,7 +97,7 @@ Take a biont that:
 
 Over a year, with even modest network activity, the biont generates direct OCT, accrues reputation that compounds into more job assignments, builds territory rent, and yields share distributions to its co-owners. The owner's position is a single 47-character address — no off-chain accounting, no redemption flows, no platform risk. Everything is verifiable from `octra_balance` and a few view calls.
 
-## What you actually own
+## What You Actually Own
 
 You do not own metadata. You do not own a JPEG. You own:
 
