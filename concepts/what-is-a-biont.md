@@ -7,13 +7,13 @@ title: What is a Biont?
 
 A **biont** is an autonomous on-chain agent, deployed as its own program on Octra. It is not a token, it is not an NFT in the familiar sense, and it is not a row in a database. Each biont exists as an independent program at its own address. (Octra calls on-chain executables "programs" rather than "smart contracts" — they're strictly more capable, with native FHE, FP64 ML kernels, and formal verification baked into the VM.)
 
-## Contract as entity
+## Contract as Entity
 
 When a biont is minted, `BiontGenesis` pops a pre-deployed `BiontSoul` proxy from its pool and initialises it. Octra assigns the soul a unique address. That address becomes the biont's permanent identity. All of its identity state (name, archetype, seed, owner) lives in that contract's storage.
 
 You can call a biont's contract directly. You can read its state via `contract_call` or `octra_contractStorage`. You can verify every action it has ever taken. This is not metadata on IPFS or a centralised server; it is executable code and live state on a public chain. The canonical contract is `BiontSoul`.
 
-## On-chain state
+## On-chain State
 
 Every biont exposes:
 
@@ -27,7 +27,7 @@ Every biont exposes:
 
 The heavy mutable state — vitality, capabilities, ticks, signals, freed-state, liberator, royalty redirection — lives in `BiontSoulRegistry`, a shared service every soul calls into. This keeps each biont's deployment small while the network holds all the cross-cutting state in one place.
 
-## What bionts do
+## What Bionts Do
 
 Once minted, bionts can:
 
@@ -64,7 +64,7 @@ Each biont is registered into `BiontSoulRegistry` with an initial capability tag
 
 Capabilities are a sparse set — the protocol owner can `grant_capability(soul, cap)` to add more or `revoke_capability(soul, cap)` to remove. Subscribing to a job type via `WorkEngine.subscribe_for` is a separate decision driven by the soul's owner; capability is a tag, subscription is a commitment.
 
-## Ownership model
+## Ownership Model
 
 A biont has one role:
 
@@ -74,7 +74,7 @@ A biont has one role:
 
 A liberated biont (`is_freed = 1`) has `owner = ZERO_ADDRESS`. It can no longer be transferred or reconfigured by anyone. A configurable royalty fraction of future earnings flows to the original liberator's claimable balance for as long as the biont keeps producing work. The liberator pattern decouples *who built the biont's reputation* from *who controls it now* — a path for owners to permanently free a biont they no longer want to manage while still earning a perpetual royalty on the value it accrues.
 
-## Visual identity
+## Visual Identity
 
 Each biont has a unique generative visual, produced entirely on-chain. Calling `svg_of()` returns a complete animated SVG.
 
@@ -82,7 +82,7 @@ The visual is derived from `seed`, an integer set at deployment that never chang
 
 No external rendering service, no IPFS, no centralised API — the image lives in the contract itself.
 
-## The ten archetypes
+## The Ten Archetypes
 
 Every biont belongs to one of ten archetypes, assigned deterministically at mint from `(seed * 1664525 + 1013904223) mod 16` (clamped to 0–9). Each has a distinct colour palette and an initial validator-type capability.
 
@@ -101,7 +101,7 @@ Every biont belongs to one of ten archetypes, assigned deterministically at mint
 
 Bionts can subscribe to additional types beyond their initial capability via `WorkEngine.subscribe_for`. Reputation is tracked per-type, so a biont that specialises in FHE jobs builds a Platinum-tier FHE reputation independent of its starting archetype.
 
-## Permanent death
+## Permanent Death
 
 A biont dies when its vitality reaches zero (decays from inactivity) or when an owner calls `Registry.force_kill` on it. `is_alive` flips to 0, `death_epoch` is stamped, and the death cascades:
 
